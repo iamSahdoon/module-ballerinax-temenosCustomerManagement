@@ -49,3 +49,15 @@ isolated function testGetCustomerDetailsbyId() returns error? {
     }
 }
 
+@test:Config {
+    groups: ["testGetCustomerRelationships"]
+}
+isolated function testGetCustomerRelationships() returns error? {
+    CustomerRelationshipResponse1|error response = temenos->/customers/relationships.get();
+    if response is CustomerRelationshipResponse1 {
+        io:println("Success Response for Customer Details: ", response);
+        test:assertTrue(response is CustomerRelationshipResponse1, "failed to retrieve customer relationships");
+    } else {
+        test:assertFail("Failed to retrieve customer relationships" + response.message());
+    }
+}
